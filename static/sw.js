@@ -1,8 +1,5 @@
-// SkateRun Service Worker
-const CACHE = 'skaterun-v1';
+const CACHE = 'skaterun-v2';
 const STATIC = [
-  '/',
-  '/home',
   '/static/css/main.css',
   '/static/css/game.css',
   '/static/js/game.js',
@@ -26,12 +23,11 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // API calls always go to network
-  if (e.request.url.includes('/api/')) {
+  const url = new URL(e.request.url);
+  if (!url.pathname.startsWith('/static/')) {
     e.respondWith(fetch(e.request));
     return;
   }
-  // Everything else: cache first, network fallback
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
