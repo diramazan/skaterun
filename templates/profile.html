@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Profil · SkateRun{% endblock %}
+{% block content %}
+<div class="profile-wrap">
+  <h1 class="page-title"><span class="neon">{{ user.username }}</span></h1>
+  <p class="profile-since">Dabei seit {{ user.created_at.strftime('%d.%m.%Y') }}</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num neon">{{ total_games }}</div>
+      <div class="stat-label">Spiele gesamt</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num neon2">{{ completed_levels }}</div>
+      <div class="stat-label">Level abgeschlossen</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num accent">{{ total_score }}</div>
+      <div class="stat-label">Gesamtpunkte</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Letzte Spiele</h2>
+  {% if scores %}
+  <table class="score-table">
+    <thead>
+      <tr><th>Level</th><th>Score</th><th>Status</th><th>Datum</th></tr>
+    </thead>
+    <tbody>
+    {% for s in scores %}
+      <tr>
+        <td>Level {{ s.level }}</td>
+        <td class="neon">{{ s.score }}</td>
+        <td>{% if s.completed %}<span class="badge-done">✓ Geschafft</span>{% else %}<span class="badge-crash">✗ Crash</span>{% endif %}</td>
+        <td class="muted">{{ s.played_at.strftime('%d.%m. %H:%M') }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">Noch keine Spiele — leg los!</p>
+  {% endif %}
+
+  <div style="margin-top:24px">
+    <a href="{{ url_for('home') }}" class="btn-primary">← Zurück zu den Levels</a>
+  </div>
+</div>
+{% endblock %}

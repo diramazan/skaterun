@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Registrieren · SkateRun{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">SKATERUN</div>
+    <p class="auth-sub">Erstell deinen Account</p>
+
+    {% if error %}
+    <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="field">
+        <label>Benutzername</label>
+        <input type="text" name="username" minlength="3" required autofocus>
+      </div>
+      <div class="field">
+        <label>Passwort</label>
+        <input type="password" name="password" minlength="6" required>
+        <span class="field-hint">Mindestens 6 Zeichen</span>
+      </div>
+      <button type="submit" class="btn-primary">Account erstellen</button>
+    </form>
+
+    <p class="auth-switch">Schon einen Account? <a href="{{ url_for('login') }}">Einloggen</a></p>
+  </div>
+</div>
+{% endblock %}

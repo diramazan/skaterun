@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#12122a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SkateRun">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+
+<!-- No address bar on iOS when added to home screen -->
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>{% block title %}SkateRun{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+{% if session.get('user_id') %}
+<nav class="navbar">
+  <a class="nav-logo" href="{{ url_for('home') }}">🛹</a>
+  <div class="nav-links">
+    <a href="{{ url_for('home') }}" {% if request.endpoint=='home' %}class="active"{% endif %}>Levels</a>
+    <a href="{{ url_for('leaderboard') }}" {% if request.endpoint=='leaderboard' %}class="active"{% endif %}>Rangliste</a>
+    <a href="{{ url_for('profile') }}" {% if request.endpoint=='profile' %}class="active"{% endif %}>Profil</a>
+    <a href="{{ url_for('logout') }}" class="nav-logout">✕</a>
+  </div>
+</nav>
+{% endif %}
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<div class="scanlines"></div>
+
+<!-- Register Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW error:', err));
+  });
+}
+</script>
+</body>
+</html>

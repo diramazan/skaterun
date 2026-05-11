@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Login · SkateRun{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">SKATERUN</div>
+    <p class="auth-sub">Meld dich an und fahr los 🛹</p>
+
+    {% if error %}
+    <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="field">
+        <label>Benutzername</label>
+        <input type="text" name="username" autocomplete="username" required autofocus>
+      </div>
+      <div class="field">
+        <label>Passwort</label>
+        <input type="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-primary">Einloggen</button>
+    </form>
+
+    <p class="auth-switch">Noch kein Account? <a href="{{ url_for('register') }}">Registrieren</a></p>
+  </div>
+</div>
+{% endblock %}

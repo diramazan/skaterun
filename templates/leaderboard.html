@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Rangliste · SkateRun{% endblock %}
+{% block content %}
+<div class="profile-wrap">
+  <h1 class="page-title">🏆 Rangliste</h1>
+
+  {% if board %}
+  <table class="score-table">
+    <thead>
+      <tr><th>#</th><th>Spieler</th><th>Gesamtpunkte</th><th>Level abgeschl.</th></tr>
+    </thead>
+    <tbody>
+    {% for entry in board %}
+      <tr {% if entry.username == session.username %}class="my-row"{% endif %}>
+        <td class="rank">
+          {% if loop.index == 1 %}🥇
+          {% elif loop.index == 2 %}🥈
+          {% elif loop.index == 3 %}🥉
+          {% else %}{{ loop.index }}{% endif %}
+        </td>
+        <td>{{ entry.username }}{% if entry.username == session.username %} <span class="badge-done">Du</span>{% endif %}</td>
+        <td class="neon">{{ entry.total }}</td>
+        <td class="neon2">{{ entry.completed }} / 10</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">Noch keine Einträge.</p>
+  {% endif %}
+
+  <div style="margin-top:24px">
+    <a href="{{ url_for('home') }}" class="btn-primary">← Zurück zu den Levels</a>
+  </div>
+</div>
+{% endblock %}

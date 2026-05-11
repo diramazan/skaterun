@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Level auswählen · SkateRun{% endblock %}
+{% block content %}
+<div class="home-wrap">
+  <div class="home-header">
+    <h1>Hey, <span class="neon">{{ user.username }}</span>! 🛹</h1>
+    <p class="home-sub">Wähle dein Level und leg los.</p>
+  </div>
+
+  <div class="level-grid">
+    {% for lvl in levels %}
+    <div class="level-card {% if lvl.unlocked %}unlocked{% else %}locked{% endif %} {% if lvl.completed %}done{% endif %}">
+      <div class="level-num">{{ lvl.number }}</div>
+
+      {% if lvl.unlocked %}
+        <div class="level-label">
+          {% if lvl.completed %}✓ Geschafft{% else %}Spielen{% endif %}
+        </div>
+        {% if lvl.best_score is not none %}
+        <div class="level-score">Best: {{ lvl.best_score }}</div>
+        {% endif %}
+        <a href="{{ url_for('play', level=lvl.number) }}" class="level-btn">
+          {% if lvl.completed %}Nochmal{% else %}Start{% endif %}
+        </a>
+      {% else %}
+        <div class="level-label">🔒 Gesperrt</div>
+        <div class="level-score">Schließ Level {{ lvl.number - 1 }} ab</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

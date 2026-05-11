@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Level {{ level }} · SkateRun{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+{% endblock %}
+{% block content %}
+<div class="game-wrap">
+  <div class="game-topbar">
+    <a href="{{ url_for('home') }}" class="back-btn">← Levels</a>
+    <div class="game-info">
+      <span>LVL <strong id="uiLevel">{{ level }}</strong></span>
+      <span><strong id="uiScore" class="neon">0</strong></span>
+      <span>🪙<strong id="uiCoins" class="accent">0</strong></span>
+      <span><strong id="uiCombo" class="neon2" style="min-width:2.5rem;display:inline-block"></strong></span>
+      <span><strong id="uiLives" class="accent">❤❤❤</strong></span>
+      <span class="muted" style="font-size:0.65rem">Best <strong id="uiBest" class="neon2">–</strong></span>
+    </div>
+  </div>
+
+  <div id="gameWrapper">
+    <canvas id="gameCanvas"></canvas>
+  </div>
+
+  <!-- Tap anywhere on canvas: left=brake, right=jump -->
+  <div class="touch-hint-bar">
+    <span class="hint-brake">◀◀ BREMSEN</span>
+    <span class="hint-divider">|</span>
+    <span class="hint-jump">SPRINGEN ▲</span>
+  </div>
+
+  <div id="resultOverlay" class="result-overlay hidden">
+    <div class="result-card">
+      <div id="resultTitle" class="result-title"></div>
+      <div id="resultScore" class="result-score"></div>
+      <div id="resultCoins" class="result-coins"></div>
+      <div id="resultBest" class="result-best"></div>
+      <div class="result-btns">
+        <button id="btnRetry" class="btn-primary">Nochmal</button>
+        <a href="{{ url_for('home') }}" class="btn-secondary">Levels</a>
+        <button id="btnAI" class="btn-ai">✦ Tipps</button>
+      </div>
+      <div id="aiBox" class="ai-box hidden">
+        <div class="ai-title">◆ Claude analysiert…</div>
+        <div id="aiText" class="ai-text"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.GAME_LEVEL = {{ level }};
+  window.GAME_USERNAME = "{{ username }}";
+</script>
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+{% endblock %}
